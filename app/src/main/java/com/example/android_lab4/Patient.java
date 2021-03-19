@@ -3,19 +3,26 @@ package com.example.android_lab4;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "patient")
+@Entity(tableName = "patient",
+        foreignKeys = {@ForeignKey(entity = Nurse.class,
+        parentColumns = "nurseId",
+        childColumns = "nurseId",
+        onDelete = ForeignKey.CASCADE)
+        }
+)
 public class Patient extends Person{
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    String patientId;
+    int patientId;
+    @ColumnInfo(index = true)
     String nurseId;
     String room;
 
-    public Patient(String firstName, String lastName, String department, @NonNull String patientId, String nurseId, String room) {
+    public Patient(String firstName, String lastName, String department, String nurseId, String room) {
         super(firstName, lastName, department);
-        this.patientId = patientId;
         this.nurseId = nurseId;
         this.room = room;
     }
