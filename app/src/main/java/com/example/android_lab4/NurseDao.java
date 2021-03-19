@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface NurseDao  {
 
     @Delete
     void delete(Nurse nurse);
+
+    @Transaction
+    @Query("SELECT * FROM nurse Where nurseId = :nurseId ")
+    public LiveData<NurseWithPatients> getNurseWithPatientsByNurseId(String nurseId);
 }

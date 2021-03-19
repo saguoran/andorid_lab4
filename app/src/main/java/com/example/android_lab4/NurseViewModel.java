@@ -7,21 +7,23 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 public class NurseViewModel  extends AndroidViewModel {
-    private NurseRepository repo;
-    private LiveData<Nurse> nurseLiveData;
+    private AppRepository repo;
+    private LiveData<NurseWithPatients> nurseWithPatients;
     public NurseViewModel(@NonNull Application application) {
         super(application);
-        repo = new NurseRepository(application);
+        repo = new AppRepository(application);
+
     }
 
-    public LiveData<Nurse> getNurseLiveData() {
-        return repo.getNurseLiveData();
+    public LiveData<NurseWithPatients> getNurseWithPatients() {
+        return nurseWithPatients;
     }
 
     public void register(Nurse nurse) {
-        repo.insert(nurse);
+        repo.insertNurse(nurse);
     }
     public void login(String id,String password) {
-        repo.findByIdAndPassword(id,password);
+        repo.findNurseByIdAndPassword(id,password);
+        nurseWithPatients = repo.findNurseWithPatientsByNurseId(id);
     }
 }
