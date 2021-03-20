@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class NurseViewModel  extends AndroidViewModel {
+public class AppViewModel extends AndroidViewModel {
     private AppRepository repo;
     private LiveData<NurseWithPatients> nurseWithPatients;
-    public NurseViewModel(@NonNull Application application) {
+    public AppViewModel(@NonNull Application application) {
         super(application);
         repo = new AppRepository(application);
 

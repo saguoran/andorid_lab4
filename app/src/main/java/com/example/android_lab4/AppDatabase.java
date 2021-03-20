@@ -1,21 +1,16 @@
 package com.example.android_lab4;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 @Database(entities = {Nurse.class, Patient.class}, version =1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract NurseDao nurseDao();
-    public abstract PatientDao patientDao();
+    public abstract AppDao nurseDao();
     private static AppDatabase INSTANCE;
 
     public static AppDatabase getDatabase(final Context context) {
@@ -47,8 +42,10 @@ public abstract class AppDatabase extends RoomDatabase {
                     new Thread(()->{
                         Nurse nurse = new Nurse("Red", "Iris", "001","iris","123x");
                         Patient patient = new Patient("Red", "Iris", "001",nurse.nurseId, "A21");
+
                         INSTANCE.nurseDao().insertAll(nurse);
-                        INSTANCE.patientDao().insertAll(patient);
+                        INSTANCE.nurseDao().insertAll(patient);
+
                     }).start();
                 }
             };
