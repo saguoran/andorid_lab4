@@ -52,18 +52,18 @@ public interface AppDao {
     // below section is for Test
     //insert test
     @Insert
-    void insert(Test test);
+    void insert(Test... test);
 
     //delete test
     @Delete
     void delete(Test test);
 
     //Monitoring Query Result Changes with Live Data
-    @Query("select * from Test order by testId")
+    @Query("select * from test order by testId")
     LiveData<List<Test>> getAllTests();
 
     // return test records from given patient id
-    @Query("SELECT * FROM Test WHERE patientId IN (:patientId)")
+    @Query("SELECT * FROM test WHERE patientId IN (:patientId)")
     LiveData<List<Test>> getTestByPatiendId(String patientId);
 }
 

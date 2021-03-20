@@ -1,6 +1,7 @@
 package com.example.android_lab4;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -8,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Nurse.class, Patient.class}, version = 3, exportSchema = false)
+@Database(entities = {Nurse.class, Patient.class, Test.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
     // This callback is called when the database has opened.
@@ -35,8 +36,8 @@ public abstract class AppDatabase extends RoomDatabase {
                                 new Patient("Carys", "Abrielle", "003", nurse.nurseId, "A210"),
                                 new Patient("Adara", "Adara", "004", nurse.nurseId, "A211"),
                         };
-                        INSTANCE.nurseDao().insertAll(nurse);
-                        INSTANCE.nurseDao().insertAll(patients);
+                        INSTANCE.appDao().insertAll(nurse);
+                        INSTANCE.appDao().insertAll(patients);
                     }).start();
                 }
             };
@@ -59,6 +60,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public abstract AppDao nurseDao();
+    public abstract AppDao appDao();
 
 }

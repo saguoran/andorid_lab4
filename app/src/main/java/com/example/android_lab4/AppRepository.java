@@ -18,7 +18,7 @@ public class AppRepository {
     AppRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
 //        new Thread(db::clearAllTables).start();
-        appDao = db.nurseDao();
+        appDao = db.appDao();
     }
 
     public MutableLiveData<NurseWithPatients> getNurseWithPatients() {
