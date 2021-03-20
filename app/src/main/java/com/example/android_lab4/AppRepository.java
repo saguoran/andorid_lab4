@@ -53,8 +53,8 @@ public class AppRepository {
         return testList;
     }
 
-    LiveData<List<Test>> getAllTestsByNurseIds(String nurseId) {
-        return appDao.getTestByNurseIds(nurseId);
+    LiveData<List<Test>> getAllTestsByPatiendId(String patientId) {
+        return appDao.getTestByPatiendId(patientId);
     }
 
     //inserts a person asynchronously
