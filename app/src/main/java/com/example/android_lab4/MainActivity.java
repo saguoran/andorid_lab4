@@ -1,13 +1,10 @@
 package com.example.android_lab4;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.example.android_lab4.ui.login.LoginActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,8 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NurseViewModel nurseViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(NurseViewModel.class);
-        PatientViewModel patientViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(PatientViewModel.class);
+        AppViewModel nurseViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
         Nurse nurse = new Nurse("Red", "Iris", "001","iris","123x");
 //        Patient patient = new Patient("Red", "Iris", "001",nurse.nurseId, "A21");
 //        nurseViewModel.register(nurse);
