@@ -10,41 +10,43 @@ import java.util.List;
 public class AppRepository {
 
     private final AppDao appDao;
-    private LiveData<Nurse> nurseLiveData;
+    private MutableLiveData<NurseWithPatients> nurseWithPatients;
 
     private MutableLiveData<Integer> insertResult = new MutableLiveData<>();
     private LiveData<List<Test>> testList;
 
     AppRepository(Application application) {
-//        AppDatabase db = Room.databaseBuilder(application,
-//                AppDatabase.class, "lab4_db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         AppDatabase db = AppDatabase.getDatabase(application);
-        new Thread(db::clearAllTables).start();
+//        new Thread(db::clearAllTables).start();
         appDao = db.nurseDao();
     }
-    public LiveData<Nurse> getNurseLiveData() {
-        return nurseLiveData;
+
+    public MutableLiveData<NurseWithPatients> getNurseWithPatients() {
+        if (nurseWithPatients == null) {
+            nurseWithPatients = new MutableLiveData<>();
+        }
+        return nurseWithPatients;
     }
 
     public void insertNurse(Nurse nurse) {
         new Thread(() -> {
             appDao.insertAll(nurse);
-            nurseLiveData = appDao.getByUserIdAndPassword(nurse.nurseId, nurse.password);
         }).start();
     }
-    public void insertPatient(Patient p){
+
+
+    public void findNurseWithPatientsByNurseId(String nurseId, String password) {
         new Thread(() -> {
-        appDao.insertAll(p);}).start();
+            NurseWithPatients n =appDao.getNurseWithPatientsByNurseId(nurseId, password);
+            getNurseWithPatients().postValue(n);
+        }).start();
     }
-
-    public void findNurseByIdAndPassword(String nurseId, String password) {
-//        new Thread(() -> {
-            nurseLiveData = appDao.getByUserIdAndPassword(nurseId, password);
-//        }).start();
-    }
-
-    public LiveData<NurseWithPatients> findNurseWithPatientsByNurseId(String nurseId){
-        return appDao.getNurseWithPatientsByNurseId(nurseId);
+    public void update(Patient patient) {
+        new Thread(() -> {
+            appDao.update(patient);
+            NurseWithPatients n =appDao.getNurseWithPatientsByNurseId(patient.nurseId);
+            getNurseWithPatients().postValue(n);
+        }).start();
     }
 
     // below section is for Test

@@ -17,4 +17,5 @@ public class Nurse extends Person{
         this.nurseId = nurseId;
         this.password = password;
     }
+
 }
