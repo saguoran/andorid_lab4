@@ -8,10 +8,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 public class AppViewModel extends AndroidViewModel {
     private final AppRepository repo ;
     private final MutableLiveData<NurseWithPatients> nurseWithPatients;
     boolean authenticated = false;
+    private LiveData<List<Test>> testLiveData;
 
     public AppViewModel(@NonNull Application application) {
         super(application);
@@ -32,5 +35,14 @@ public class AppViewModel extends AndroidViewModel {
     }
     public void update(Patient patient){
         repo.update(patient);
+    }
+
+    // below section is for Test
+    public LiveData<List<Test>> getTestLiveData() {
+        return repo.getAllTests();
+    }
+
+    public void newTest(Test test) {
+        repo.insertTest(test);
     }
 }

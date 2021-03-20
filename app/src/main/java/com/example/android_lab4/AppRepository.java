@@ -5,10 +5,15 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
+
 public class AppRepository {
 
     private final AppDao appDao;
     private MutableLiveData<NurseWithPatients> nurseWithPatients;
+
+    private MutableLiveData<Integer> insertResult = new MutableLiveData<>();
+    private LiveData<List<Test>> testList;
 
     AppRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -44,5 +49,37 @@ public class AppRepository {
         }).start();
     }
 
+    // below section is for Test
+    // returns query results as LiveData object
+    LiveData<List<Test>> getAllTests() {
+        return testList;
+    }
 
+    LiveData<List<Test>> getAllTestsByPatiendId(String patientId) {
+        return appDao.getTestByPatiendId(patientId);
+    }
+
+    //inserts a person asynchronously
+    public void insertTest(Test test) {
+        insertAsync(test);
+    }
+
+    // returns insert results as LiveData object
+    public LiveData<Integer> getInsertResult() {
+        return insertResult;
+    }
+
+    private void insertAsync(final Test test) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    appDao.insert(test);
+                    insertResult.postValue(1);
+                } catch (Exception e) {
+                    insertResult.postValue(0);
+                }
+            }
+        }).start();
+    }
 }
