@@ -56,8 +56,8 @@ public interface AppDao {
     @Query("select * from Test order by testId")
     LiveData<List<Test>> getAllTests();
 
-    // return test records from given nurse ids
-    @Query("SELECT * FROM Test WHERE nurseId IN (:nurseId)")
-    LiveData<List<Test>> getTestByNurseIds(String nurseId);
+    // return test records from given patient id
+    @Query("SELECT * FROM Test WHERE patientId IN (:patientId)")
+    LiveData<List<Test>> getTestByPatiendId(String patientId);
 }
 
