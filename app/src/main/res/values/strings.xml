@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">android_lab4</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">NurseId</string>
+    <string name="patient_avatar">avatar</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
+    <string name="action_log_in">Log In</string>
+    <string name="action_log_out">Log Out</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
@@ -11,4 +13,12 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <string name="patient_info">Patient Info</string>
+    <string name="nurse_with_patients">nurse_with_patients</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="department">Department</string>
+    <string name="room">Room</string>
+    <string name="save">Save</string>
 </resources>

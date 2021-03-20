@@ -3,8 +3,12 @@ package com.example.android_lab4;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
 @Entity
-abstract class Person {
+abstract class Person  {
     @ColumnInfo(name = "first_name")
     String firstName;
     @ColumnInfo(name = "last_name")
@@ -16,4 +20,8 @@ abstract class Person {
         this.lastName = lastName;
         this.department = department;
     }
+    public String getDisplayName(){
+        return firstName+" "+lastName;
+    }
+
 }
