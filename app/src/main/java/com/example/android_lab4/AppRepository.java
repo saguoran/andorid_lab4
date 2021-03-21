@@ -11,6 +11,7 @@ public class AppRepository {
 
     private final AppDao appDao;
     private MutableLiveData<NurseWithPatients> nurseWithPatients;
+    private MutableLiveData<Patient> patient;
 
     private MutableLiveData<Integer> insertResult = new MutableLiveData<>();
     private LiveData<List<Test>> testList;
@@ -28,6 +29,20 @@ public class AppRepository {
         return nurseWithPatients;
     }
 
+    public MutableLiveData<Patient> getPatient() {
+        if (patient == null) {
+            patient = new MutableLiveData<>();
+        }
+        return patient;
+    }
+
+    public void getPatientById(int patientId) {
+        new Thread(() -> {
+            patient.postValue(appDao.loadPatientById(patientId));
+        }).start();
+    }
+
+
     public void insertNurse(Nurse nurse) {
         new Thread(() -> {
             appDao.insertAll(nurse);
@@ -41,11 +56,18 @@ public class AppRepository {
             getNurseWithPatients().postValue(n);
         }).start();
     }
+    public void findNurseWithPatientsByNurseId(String nurseId) {
+        new Thread(() -> {
+            NurseWithPatients n = appDao.getNurseWithPatientsByNurseId(nurseId);
+            getNurseWithPatients().postValue(n);
+        }).start();
+    }
     public void update(Patient patient) {
         new Thread(() -> {
             appDao.update(patient);
-            NurseWithPatients n =appDao.getNurseWithPatientsByNurseId(patient.nurseId);
-            getNurseWithPatients().postValue(n);
+//            NurseWithPatients n =appDao.getNurseWithPatientsByNurseId(patient.nurseId);
+            getPatient().postValue(patient);
+//            getNurseWithPatients().postValue(n);
         }).start();
     }
 

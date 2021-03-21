@@ -5,50 +5,59 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 public class PatientActivity extends AppCompatActivity {
     private static final String TAG = "PatientActivity";
+    public static final String PATIENT_ID = "EditPatient";
+    public static final int EDIT_PATIENT = 4;
+    AppViewModel viewModel;
     Patient patient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
-        AppViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
+        TextView firstName = findViewById(R.id.full_name);
+        TextView department = findViewById(R.id.department);
+        TextView room = findViewById(R.id.room);
         Intent intent = getIntent();
-        patient = MainActivity.gson.fromJson(intent.getStringExtra(MainActivity.PATIENT), Patient.class);
-        EditText firstName = findViewById(R.id.first_name);
-        firstName.setText(patient.firstName);
-        EditText lastName = findViewById(R.id.last_name);
-        lastName.setText(patient.lastName);
-        EditText department = findViewById(R.id.department);
-        department.setText(patient.department);
-        EditText room = findViewById(R.id.room);
-        room.setText(patient.room);
-        findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+        int patientId = intent.getIntExtra(MainActivity.VIEW_PATIENT, -1);
+        viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
+        viewModel.getPatientById(patientId);
+        viewModel.getPatient().observe(this, new Observer<Patient>() {
             @Override
-            public void onClick(View v) {
-                viewModel.update(new Patient(firstName.getText().toString(), lastName.getText().toString(), department.getText().toString(), room.getText().toString(), patient.nurseId, patient.patientId));
-                Toast.makeText(getApplicationContext(), "updated patient "+patient.getDisplayName(), Toast.LENGTH_LONG).show();
+            public void onChanged(Patient patient) {
+                if(patient!=null){
+                    PatientActivity.this.patient = patient;
+                    firstName.setText(("Full Name: "+patient.getDisplayName()));
+                    department.setText(("Department: "+patient.department));
+                    room.setText(("Room: "+patient.room));
+                }
             }
         });
-        viewModel.getNurseWithPatients().observe(this, (n) -> {
-                    if (n != null) {
-                        Log.d(TAG, "onCreate: " + n.nurse.getDisplayName());
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putString(MainActivity.NURSE_WITH_PATIENTS, MainActivity.gson.toJson(n)).apply();
-                        Intent view = new Intent();
-                        setResult(Activity.RESULT_OK, view);
-                        finish();
-                    }
-                }
-        );
-
+        findViewById(R.id.edit_patient).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientActivity.this, EditPatientActivity.class);
+                intent.putExtra(PATIENT_ID, patient.patientId);
+                startActivityForResult(intent, EDIT_PATIENT );
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EDIT_PATIENT) {
+                int patientId = data.getIntExtra(PATIENT_ID, -1);
+                viewModel.getPatientById(patientId);
+            }
+        }
     }
 }
