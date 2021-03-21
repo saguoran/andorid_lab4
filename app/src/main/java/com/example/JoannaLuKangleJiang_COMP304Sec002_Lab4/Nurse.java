@@ -1,4 +1,4 @@
-package com.example.android_lab4;
+package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 
 import androidx.annotation.NonNull;

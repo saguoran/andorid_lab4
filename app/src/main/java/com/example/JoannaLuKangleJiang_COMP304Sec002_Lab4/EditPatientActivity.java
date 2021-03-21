@@ -1,4 +1,4 @@
-package com.example.android_lab4;
+package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,9 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.google.gson.Gson;
-
-import static com.example.android_lab4.MainActivity.NURSE_WITH_PATIENTS;
+import static com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.MainActivity.NURSE_WITH_PATIENTS;
 
 public class EditPatientActivity extends AppCompatActivity {
     private static final String TAG = "EditPatientActivity";
