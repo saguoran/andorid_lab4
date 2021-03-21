@@ -14,13 +14,14 @@ public class AppViewModel extends AndroidViewModel {
     private final MutableLiveData<NurseWithPatients> nurseWithPatients;
     private final MutableLiveData<Patient> patientMutableLiveData;
     boolean authenticated = false;
-    private LiveData<List<Test>> testLiveData;
+    private final LiveData<List<Test>> testLiveData;
 
     public AppViewModel(@NonNull Application application) {
         super(application);
         repo = new AppRepository(application);
         nurseWithPatients = repo.getNurseWithPatients();
         patientMutableLiveData = repo.getPatient();
+        testLiveData = repo.getAllTests();
     }
 
 
@@ -50,11 +51,15 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     // below section is for Test
-    public LiveData<List<Test>> getTestLiveData() {
+    public LiveData<List<Test>> getAllTestLiveData() {
         return repo.getAllTests();
     }
 
     public void newTest(Test test) {
         repo.insertTest(test);
+    }
+
+    public LiveData<List<Test>> getAllTestByPatientIdLiveData(int patiendId) {
+        return repo.getAllTestsByPatiendId(patiendId);
     }
 }

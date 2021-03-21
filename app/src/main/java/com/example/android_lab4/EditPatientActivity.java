@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import static com.example.android_lab4.MainActivity.NURSE_WITH_PATIENTS;
 
 public class EditPatientActivity extends AppCompatActivity {
@@ -66,5 +68,4 @@ public class EditPatientActivity extends AppCompatActivity {
             }
         });
     }
-
 }

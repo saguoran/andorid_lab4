@@ -54,7 +54,7 @@ public interface AppDao {
     // below section is for Test
     //insert test
     @Insert
-    void insert(Test... test);
+    void insertAll(Test... test);
 
     //delete test
     @Delete
@@ -66,6 +66,6 @@ public interface AppDao {
 
     // return test records from given patient id
     @Query("SELECT * FROM test WHERE patientId IN (:patientId)")
-    LiveData<List<Test>> getTestByPatiendId(String patientId);
+    LiveData<List<Test>> getTestByPatiendId(int patientId);
 }
 

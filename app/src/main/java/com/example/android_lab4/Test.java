@@ -27,14 +27,14 @@ public class Test {
     @NonNull
     int testId;
     @ColumnInfo(index = true)
-    String patientId;
+    int patientId;
     @ColumnInfo(index = true)
     String nurseId;
     double bpl;
     double bph;
     double temperature;
     @Ignore
-    public Test(@NotNull int testId, String patientId, String nurseId, double bpl, double bph, double temperature ) {
+    public Test(@NotNull int testId, int patientId, String nurseId, double bpl, double bph, double temperature ) {
         this.testId = testId;
         this.patientId = patientId;
         this.nurseId = nurseId;
@@ -43,11 +43,19 @@ public class Test {
         this.temperature = temperature;
     }
 
-    public Test(String patientId, String nurseId, double bpl, double bph, double temperature) {
+    public Test(int patientId, String nurseId, double bpl, double bph, double temperature) {
         this.patientId = patientId;
         this.nurseId = nurseId;
         this.bpl = bpl;
         this.bph = bph;
         this.temperature = temperature;
+    }
+
+    public String getDisplayName(){
+        return
+                    "Test Id: " + String.valueOf(testId) + "\n"
+                    +"BPL: " + String.valueOf(bpl) +"\n"
+                    +"BPH: " + String.valueOf(bph) +"\n"
+                    +"Temperature: " + String.valueOf(temperature);
     }
 }

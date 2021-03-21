@@ -25,4 +25,6 @@
     <string name="edit_patient">Edit Patient Info</string>
     <string name="test">Test</string>
     <string name="add_patient">Add Patient</string>
+    <string name="add_test">Add Test</string>
+    <string name="View_test_info">View Test Info</string>
 </resources>

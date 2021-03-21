@@ -3,7 +3,6 @@ package com.example.android_lab4;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,7 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
+
+import com.google.gson.Gson;
 
 public class PatientActivity extends AppCompatActivity {
     private static final String TAG = "PatientActivity";
@@ -19,6 +19,7 @@ public class PatientActivity extends AppCompatActivity {
     public static final int EDIT_PATIENT = 4;
     AppViewModel viewModel;
     Patient patient;
+    Gson gson =new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,5 +60,25 @@ public class PatientActivity extends AppCompatActivity {
                 viewModel.getPatientById(patientId);
             }
         }
+    }
+
+    // send to TestActivity
+    public void btnNewTest_OnClick(View view) {
+
+        // move to Test Activity
+        Intent intent = new Intent(this, TestActivity.class);
+        intent.putExtra(MainActivity.VIEW_PATIENT, gson.toJson(patient));
+        startActivity(intent);
+
+    }
+
+    // send to ViewTestInfoActivity
+    public void btnViewTestInfo_OnClick(View view) {
+
+        // move to Test Activity
+        Intent intent = new Intent(this, ViewTestInfoActivity.class);
+        intent.putExtra(MainActivity.VIEW_PATIENT, gson.toJson(patient));
+        startActivity(intent);
+
     }
 }
