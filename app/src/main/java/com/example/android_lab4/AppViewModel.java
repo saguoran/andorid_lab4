@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class AppViewModel extends AndroidViewModel {
         repo.getPatientById(patientId);
     }
     public void register(Nurse nurse) {
-        repo.insertNurse(nurse);
+        repo.insert(nurse);
     }
     public void findNurseWithPatientsByNurseId(String nurseId) {
         repo.findNurseWithPatientsByNurseId(nurseId);
@@ -45,6 +44,9 @@ public class AppViewModel extends AndroidViewModel {
     }
     public void update(Patient patient){
         repo.update(patient);
+    }
+    public void insert(Patient patient){
+        repo.insert(patient);
     }
 
     // below section is for Test

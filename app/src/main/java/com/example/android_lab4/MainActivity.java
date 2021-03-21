@@ -22,10 +22,10 @@ import com.google.gson.Gson;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String VIEW_PATIENT = "view_patient";
-    public static final String NEW_PATIENT = "new_patient";
     public static final String NURSE_WITH_PATIENTS = "nurse_with_patients";
     private static final int NURSER_LOGIN = 1;
     private static final int PATIENT_INFO = 2;
+    private static final int NEW_PATIENT = 3;
     private AppViewModel viewModel;
     private TextView textView;
     private Button signUpLoginButton;
@@ -39,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
         addPatientButton = findViewById(R.id.add_patient);
+        addPatientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EditPatientActivity.class);
+                startActivityForResult(intent, NEW_PATIENT);
+            }
+        });
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
