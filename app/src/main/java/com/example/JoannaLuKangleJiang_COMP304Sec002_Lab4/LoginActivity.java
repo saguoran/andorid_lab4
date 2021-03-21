@@ -1,4 +1,4 @@
-package com.example.android_lab4;
+package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
-
-import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";

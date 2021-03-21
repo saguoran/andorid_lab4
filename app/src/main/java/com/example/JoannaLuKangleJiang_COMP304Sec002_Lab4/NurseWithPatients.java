@@ -1,11 +1,8 @@
-package com.example.android_lab4;
+package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.List;
 
 public class NurseWithPatients {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android_lab4">
+    package="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4">
 
     <application
         android:allowBackup="true"
@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_lab4">
-        <activity android:name=".ViewTestInfoActivity"></activity>
-        <activity android:name=".TestActivity" />
-        <activity android:name=".EditPatientActivity" />
+        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.ViewTestInfoActivity"></activity>
+        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.TestActivity" />
+        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.EditPatientActivity" />
         <activity
-            android:name=".PatientActivity"
+            android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.PatientActivity"
             android:label="@string/patient_info" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.LoginActivity"
             android:label="@string/action_log_in" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

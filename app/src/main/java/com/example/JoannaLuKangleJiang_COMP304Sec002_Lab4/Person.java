@@ -1,11 +1,7 @@
-package com.example.android_lab4;
+package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-
-import org.json.JSONObject;
-
-import java.io.Serializable;
 
 @Entity
 abstract class Person  {
