@@ -23,9 +23,8 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        // view model
         AppViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
-
-        //LiveData<List<Test>> tests = viewModel.getAllTestLiveData();
 
         // linked the activity objects
         TextView firstName = findViewById(R.id.patient_first_name);
@@ -44,6 +43,7 @@ public class TestActivity extends AppCompatActivity {
         firstName.setText(patient.firstName);
         lastName.setText(patient.lastName);
 
+        // setOnClickListener for Test Save button
         findViewById(R.id.btnTestSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +52,7 @@ public class TestActivity extends AppCompatActivity {
                 double bplVale = Double.parseDouble(bpl.getText().toString());
                 double temperatureVale = Double.parseDouble(temperature.getText().toString());
 
-                Test test = new Test(patientId,nurserId,bphVale,bplVale,temperatureVale);
+                Test test = new Test(patientId, nurserId, bphVale, bplVale, temperatureVale);
                 viewModel.newTest(test);
 
                 Toast.makeText(getApplicationContext(), "Saved test for" + patient.getDisplayName(), Toast.LENGTH_LONG).show();

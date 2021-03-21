@@ -20,25 +20,32 @@ import com.google.gson.Gson;
 
 
 public class MainActivity extends AppCompatActivity {
+
     private static final String TAG = "MainActivity";
     public static final String VIEW_PATIENT = "view_patient";
     public static final String NURSE_WITH_PATIENTS = "nurse_with_patients";
     private static final int NURSER_LOGIN = 1;
     private static final int PATIENT_INFO = 2;
     private static final int NEW_PATIENT = 3;
+
     private AppViewModel viewModel;
     private TextView textView;
     private Button signUpLoginButton;
     private Button addPatientButton;
     private RecyclerView recyclerView;
-    public static final Gson gson =new Gson();
+    public static final Gson gson = new Gson();
     private Nurse nurse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // init variables
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
         addPatientButton = findViewById(R.id.add_patient);
+
+        // setOnClickListener for add patient button
         addPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_PATIENT);
             }
         });
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -53,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
+
+        // setOnItemClickListener for the adapter
         adapter.setOnItemClickListener(new CustomAdapter.ClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -62,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, PATIENT_INFO);
             }
         });
+
         viewModel.getNurseWithPatients().observe(this, new Observer<NurseWithPatients>() {
             @Override
             public void onChanged(NurseWithPatients nurseWithPatients) {
-                if(nurseWithPatients!=null){
+                if (nurseWithPatients != null) {
                     nurse = nurseWithPatients.nurse;
                     adapter.setPatients(nurseWithPatients.patients);
                     String welcome = String.format("Welcome, %s!", nurseWithPatients.nurse.getDisplayName());
@@ -73,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
                     addPatientButton.setEnabled(true);
                     recyclerView.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     addPatientButton.setEnabled(false);
                 }
             }
         });
+
         signUpLoginButton = findViewById(R.id.login_button);
         textView = findViewById(R.id.textView);
         signUpLoginButton.setOnClickListener(v -> {
@@ -97,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == NURSER_LOGIN) {
                 String nurseId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(NURSE_WITH_PATIENTS, null);
@@ -105,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
                 signUpLoginButton.setText(R.string.action_log_out);
             }
         }
+
         /// refresh page
-        if(nurse!=null){
+        if (nurse != null) {
             viewModel.login(nurse.nurseId, nurse.password);
         }
     }

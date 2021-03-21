@@ -14,8 +14,8 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private List<Patient> patients = new ArrayList<>();
-
     private static ClickListener clickListener;
+
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -34,18 +34,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 }
             });
         }
+
         public TextView getTextView() {
             return textView;
         }
     }
 
-    /**
-     * Initialize the dataset of the Adapter.
-     *
-     * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView.
-     */
-    public CustomAdapter() { }
+    public CustomAdapter() {
+    }
 
     public Patient getPatientAtPosition(int position) {
         return patients.get(position);
@@ -69,18 +65,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         // contents of the view with that element
         viewHolder.getTextView().setText(patients.get(position).getDisplayName());
     }
-    public void setPatients(List<Patient> patients){
-     this.patients = patients;
-      notifyDataSetChanged();
+
+    // set patients
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+        notifyDataSetChanged();
     }
+
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return patients.size();
     }
+
+    // interface for ClickListener
     public interface ClickListener {
         void onItemClick(View v, int position);
     }
+
+    // setOnItemClickListener
     public void setOnItemClickListener(ClickListener clickListener) {
         CustomAdapter.clickListener = clickListener;
     }

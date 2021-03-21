@@ -14,27 +14,34 @@ import java.util.List;
 @Dao
 public interface AppDao {
 
-    /// nurse
+    /// queries for nurses
     @Query("SELECT * FROM nurse WHERE nurseId = :nurseId AND password = :password")
     LiveData<Nurse> getByUserIdAndPassword(String nurseId, String password);
+
     @Query("SELECT * FROM nurse")
     List<Nurse> getAllNurse();
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(Nurse... nurses);
+
     @Delete
     void delete(Nurse nurse);
-    /// patient
+
+    /// queries for patients
     @Transaction
     @Query("SELECT * FROM nurse Where nurseId = :nurseId AND password = :password")
     public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId, String password);
+
     @Transaction
     @Query("SELECT * FROM nurse Where nurseId = :nurseId")
-        public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId);
+    public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId);
+
     @Query("SELECT * FROM patient")
     List<Patient> getAll();
 
     @Query("SELECT * FROM patient WHERE patientId IN (:patientIds)")
     List<Patient> loadAllByIds(int[] patientIds);
+
     @Query("SELECT * FROM patient WHERE patientId = :patientId")
     Patient loadPatientById(int patientId);
 
@@ -47,11 +54,11 @@ public interface AppDao {
 
     @Delete
     void delete(Patient patient);
+
     @Update
     void update(Patient... patient);
 
-    // below section is for Test
-    //insert test
+    // queries for tests
     @Insert
     void insertAll(Test... test);
 

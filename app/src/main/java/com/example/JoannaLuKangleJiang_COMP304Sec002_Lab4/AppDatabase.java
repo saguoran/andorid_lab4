@@ -10,7 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = {Nurse.class, Patient.class, Test.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
+
     private static AppDatabase INSTANCE;
+
     // This callback is called when the database has opened.
     // In this case, use PopulateDbAsync to populate the database
     // with the initial data set if the database has no entries.
@@ -20,7 +22,11 @@ public abstract class AppDatabase extends RoomDatabase {
                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                     super.onOpen(db);
                     new Thread(() -> {
+
+                        // populate a nurse account
                         Nurse nurse = new Nurse("Red", "Iris", "001", "iris", "123x");
+
+                        // populate sample data for patients
                         Patient[] patients = {
                                 new Patient("Cassia", "Cambria", "000", nurse.nurseId, "A20"),
                                 new Patient("Adriel", "Caspian", "001", nurse.nurseId, "A21"),
@@ -35,14 +41,19 @@ public abstract class AppDatabase extends RoomDatabase {
 //                                new Patient("Carys", "Abrielle", "003", nurse.nurseId, "A210"),
 //                                new Patient("Adara", "Adara", "004", nurse.nurseId, "A211"),
                         };
-                        Test[] tests ={
-                                new Test(1,"iris",111,222,30),
-                                new Test(1,"iris",222,333,31),
-                                new Test(1,"iris",333,444,32),
+
+                        // populate sample data for tests
+                        Test[] tests = {
+                                new Test(1, "iris", 111, 222, 30),
+                                new Test(1, "iris", 222, 333, 31),
+                                new Test(1, "iris", 333, 444, 32),
                         };
+
+                        // call appDao to insert above objects
                         INSTANCE.appDao().insertAll(nurse);
                         INSTANCE.appDao().insertAll(patients);
                         INSTANCE.appDao().insertAll(tests);
+
                     }).start();
                 }
             };
@@ -66,5 +77,4 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract AppDao appDao();
-
 }

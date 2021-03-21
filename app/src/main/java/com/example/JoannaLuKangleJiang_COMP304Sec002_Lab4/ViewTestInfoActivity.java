@@ -27,8 +27,10 @@ public class ViewTestInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_test_info);
 
+        // view model
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
 
+        // recyclerView
         recyclerView = findViewById(R.id.recyclerViewTests);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -42,6 +44,8 @@ public class ViewTestInfoActivity extends AppCompatActivity {
         patient = MainActivity.gson.fromJson(intent.getStringExtra(MainActivity.VIEW_PATIENT), Patient.class);
         int patientId = patient.patientId;
 
+        //if the LiveData already has data it will delivered
+        // to the observer to set the adpater value (set tests)
         viewModel.getAllTestByPatientIdLiveData(patientId).observe(this, new Observer<List<Test>>() {
             @Override
             public void onChanged(List<Test> result) {

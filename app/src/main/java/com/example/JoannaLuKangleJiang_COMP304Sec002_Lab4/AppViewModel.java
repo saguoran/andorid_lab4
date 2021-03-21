@@ -10,12 +10,15 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 public class AppViewModel extends AndroidViewModel {
-    private final AppRepository repo ;
+
+    // create variables
+    private final AppRepository repo;
     private final MutableLiveData<NurseWithPatients> nurseWithPatients;
     private final MutableLiveData<Patient> patientMutableLiveData;
     boolean authenticated = false;
     private final LiveData<List<Test>> testLiveData;
 
+    // constructor for AppViewModel
     public AppViewModel(@NonNull Application application) {
         super(application);
         repo = new AppRepository(application);
@@ -24,29 +27,43 @@ public class AppViewModel extends AndroidViewModel {
         testLiveData = repo.getAllTests();
     }
 
-
+    // return nurseWithPatients
     public MutableLiveData<NurseWithPatients> getNurseWithPatients() {
         return nurseWithPatients;
     }
+
+    // return patientMutableLiveData
     public MutableLiveData<Patient> getPatient() {
         return patientMutableLiveData;
     }
-    public void getPatientById(int patientId){
+
+    // load patient by patient id
+    public void getPatientById(int patientId) {
         repo.getPatientById(patientId);
     }
+
+    // register (insert) nurse
     public void register(Nurse nurse) {
         repo.insert(nurse);
     }
+
+    // load findNurseWithPatientsByNurseId
     public void findNurseWithPatientsByNurseId(String nurseId) {
         repo.findNurseWithPatientsByNurseId(nurseId);
     }
-    public void login(String id,String password) {
-        repo.findNurseWithPatientsByNurseId(id,password);
+
+    // login with id and password
+    public void login(String id, String password) {
+        repo.findNurseWithPatientsByNurseId(id, password);
     }
-    public void update(Patient patient){
+
+    // update patient
+    public void update(Patient patient) {
         repo.update(patient);
     }
-    public void insert(Patient patient){
+
+    // insert patient
+    public void insert(Patient patient) {
         repo.insert(patient);
     }
 
@@ -55,10 +72,12 @@ public class AppViewModel extends AndroidViewModel {
         return repo.getAllTests();
     }
 
+    // insert test
     public void newTest(Test test) {
         repo.insertTest(test);
     }
 
+    // return tests by patient id
     public LiveData<List<Test>> getAllTestByPatientIdLiveData(int patiendId) {
         return repo.getAllTestsByPatiendId(patiendId);
     }

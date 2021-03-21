@@ -33,8 +33,9 @@ public class Test {
     double bpl;
     double bph;
     double temperature;
+
     @Ignore
-    public Test(@NotNull int testId, int patientId, String nurseId, double bpl, double bph, double temperature ) {
+    public Test(@NotNull int testId, int patientId, String nurseId, double bpl, double bph, double temperature) {
         this.testId = testId;
         this.patientId = patientId;
         this.nurseId = nurseId;
@@ -51,11 +52,11 @@ public class Test {
         this.temperature = temperature;
     }
 
-    public String getDisplayName(){
+    public String getDisplayName() {
         return
-                    "Test Id: " + String.valueOf(testId) + "\n"
-                    +"BPL: " + String.valueOf(bpl) +"\n"
-                    +"BPH: " + String.valueOf(bph) +"\n"
-                    +"Temperature: " + String.valueOf(temperature);
+                "Test Id: " + String.valueOf(testId) + "\n"
+                        + "BPL: " + String.valueOf(bpl) + "\n"
+                        + "BPH: " + String.valueOf(bph) + "\n"
+                        + "Temperature: " + String.valueOf(temperature);
     }
 }

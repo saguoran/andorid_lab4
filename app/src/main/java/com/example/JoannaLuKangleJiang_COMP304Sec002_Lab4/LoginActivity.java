@@ -19,13 +19,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // view model
         AppViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
         Button button = findViewById(R.id.sign_up_button);
+
+        // add OnClickListener for button
         button.setOnClickListener(v -> {
             String nurseId = ((EditText) findViewById(R.id.editTextTextPersonName)).getText().toString();
             String password = ((EditText) findViewById(R.id.editTextTextPassword)).getText().toString();
             viewModel.login(nurseId, password);
         });
+
+        // check login process if pass then move to next activity, if failed show wrong credential
         viewModel.getNurseWithPatients().observe(this, (n) -> {
                     if (n != null) {
                         Log.d(TAG, "onCreate: " + n.nurse.getDisplayName());

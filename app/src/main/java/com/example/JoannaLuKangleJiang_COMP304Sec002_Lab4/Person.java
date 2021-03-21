@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
 @Entity
-abstract class Person  {
+abstract class Person {
     @ColumnInfo(name = "first_name")
     String firstName;
     @ColumnInfo(name = "last_name")
@@ -16,8 +16,9 @@ abstract class Person  {
         this.lastName = lastName;
         this.department = department;
     }
-    public String getDisplayName(){
-        return firstName+" "+lastName;
-    }
 
+    public String getDisplayName() {
+        return firstName + " " + lastName;
+
+    }
 }

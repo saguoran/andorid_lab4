@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">android_lab4</string>
+    <string name="app_name">COMP304Sec002_Lab4</string>
     <!-- Strings related to login -->
-    <string name="prompt_username">NurseId</string>
+    <string name="prompt_username">Nurse Id</string>
+    <string name="prompt_username_hint">iris</string>
     <string name="patient_avatar">avatar</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_password_hint">123x</string>
     <string name="action_log_in">Log In</string>
     <string name="action_log_out">Log Out</string>
     <string name="action_register">Register</string>

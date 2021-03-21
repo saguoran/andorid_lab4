@@ -22,14 +22,22 @@ public class EditPatientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_patient);
+
+        // link the objects
         EditText firstName = findViewById(R.id.first_name);
         EditText lastName = findViewById(R.id.last_name);
         EditText department = findViewById(R.id.department);
         EditText room = findViewById(R.id.room);
+
+        // obtain patient id
         Intent intent = getIntent();
         int patientId = intent.getIntExtra(PatientActivity.PATIENT_ID, -1);
+
+        // create view model
         AppViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
         viewModel.getPatientById(patientId);
+
+        // update object text values with patient info
         viewModel.getPatient().observe(this, new Observer<Patient>() {
             @Override
             public void onChanged(Patient patient) {
@@ -51,6 +59,7 @@ public class EditPatientActivity extends AppCompatActivity {
             }
         });
 
+        // add onClickListener for save button
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

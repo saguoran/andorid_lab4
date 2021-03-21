@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "patient",
         foreignKeys = {@ForeignKey(entity = Nurse.class,
-        parentColumns = "nurseId",
-        childColumns = "nurseId",
-        onDelete = ForeignKey.CASCADE)
+                parentColumns = "nurseId",
+                childColumns = "nurseId",
+                onDelete = ForeignKey.CASCADE)
         },
         indices = {@Index(value = {"first_name", "last_name"},
                 unique = true)}
 )
-public class Patient extends Person{
+public class Patient extends Person {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     int patientId;
@@ -30,6 +30,7 @@ public class Patient extends Person{
         this.nurseId = nurseId;
         this.room = room;
     }
+
     @Ignore
     public Patient(String firstName, String lastName, String department, String room, String nurseId, int patientId) {
         super(firstName, lastName, department);

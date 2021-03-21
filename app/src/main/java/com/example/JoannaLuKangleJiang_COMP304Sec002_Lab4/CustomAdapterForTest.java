@@ -14,8 +14,8 @@ import java.util.List;
 public class CustomAdapterForTest extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private List<Test> tests = new ArrayList<>();
-
     private static CustomAdapter.ClickListener clickListener;
+
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -34,14 +34,17 @@ public class CustomAdapterForTest extends RecyclerView.Adapter<CustomAdapter.Vie
                 }
             });
         }
+
         public TextView getTextView() {
             return textView;
         }
     }
 
     // constructor
-    public CustomAdapterForTest() { }
+    public CustomAdapterForTest() {
+    }
 
+    // get test by position
     public Test getTestAtPosition(int position) {
         return tests.get(position);
     }
@@ -65,7 +68,8 @@ public class CustomAdapterForTest extends RecyclerView.Adapter<CustomAdapter.Vie
         viewHolder.getTextView().setText(tests.get(position).getDisplayName());
     }
 
-    public void setTests(List<Test> tests){
+    // set test
+    public void setTests(List<Test> tests) {
         this.tests = tests;
         notifyDataSetChanged();
     }
@@ -76,10 +80,12 @@ public class CustomAdapterForTest extends RecyclerView.Adapter<CustomAdapter.Vie
         return tests.size();
     }
 
+    // interface ClickListener
     public interface ClickListener {
         void onItemClick(View v, int position);
     }
 
+    // setOnItemClickListener
     public void setOnItemClickListener(CustomAdapter.ClickListener clickListener) {
         CustomAdapterForTest.clickListener = clickListener;
     }
