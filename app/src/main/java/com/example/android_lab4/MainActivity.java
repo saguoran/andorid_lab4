@@ -21,20 +21,24 @@ import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    public static final String PATIENT = "PATIENT";
+    public static final String VIEW_PATIENT = "view_patient";
+    public static final String NEW_PATIENT = "new_patient";
     public static final String NURSE_WITH_PATIENTS = "nurse_with_patients";
     private static final int NURSER_LOGIN = 1;
     private static final int PATIENT_INFO = 2;
     private AppViewModel viewModel;
     private TextView textView;
-    private Button button;
+    private Button signUpLoginButton;
+    private Button addPatientButton;
     private RecyclerView recyclerView;
     public static final Gson gson =new Gson();
+    private Nurse nurse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
+        addPatientButton = findViewById(R.id.add_patient);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -47,24 +51,33 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View v, int position) {
                 Patient patient = adapter.getPatientAtPosition(position);
                 Intent intent = new Intent(MainActivity.this, PatientActivity.class);
-                intent.putExtra(PATIENT, gson.toJson(patient));
+                intent.putExtra(VIEW_PATIENT, patient.patientId);
                 startActivityForResult(intent, PATIENT_INFO);
             }
         });
         viewModel.getNurseWithPatients().observe(this, new Observer<NurseWithPatients>() {
             @Override
             public void onChanged(NurseWithPatients nurseWithPatients) {
-                if(nurseWithPatients!=null)
-                adapter.setPatients(nurseWithPatients.patients);
+                if(nurseWithPatients!=null){
+                    nurse = nurseWithPatients.nurse;
+                    adapter.setPatients(nurseWithPatients.patients);
+                    String welcome = String.format("Welcome, %s!", nurseWithPatients.nurse.getDisplayName());
+                    textView.setText(welcome);
+                    Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+                    addPatientButton.setEnabled(true);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }else {
+                    addPatientButton.setEnabled(false);
+                }
             }
         });
-        button = findViewById(R.id.login_button);
+        signUpLoginButton = findViewById(R.id.login_button);
         textView = findViewById(R.id.textView);
-        button.setOnClickListener(v -> {
+        signUpLoginButton.setOnClickListener(v -> {
             if (viewModel.authenticated) {
                 viewModel.getNurseWithPatients().setValue(null);
                 viewModel.authenticated = false;
-                button.setText(R.string.action_log_in);
+                signUpLoginButton.setText(R.string.action_log_in);
                 textView.setText("");
                 recyclerView.setVisibility(View.GONE);
             } else {
@@ -79,18 +92,15 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == NURSER_LOGIN) {
-                NurseWithPatients nurseWithPatients = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(NURSE_WITH_PATIENTS, null), NurseWithPatients.class);
-                viewModel.getNurseWithPatients().setValue(nurseWithPatients);
-                button.setText(R.string.action_log_out);
-                String welcome = String.format("Welcome, %s!", nurseWithPatients.nurse.getDisplayName());
-                textView.setText(welcome);
-                Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+                String nurseId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(NURSE_WITH_PATIENTS, null);
                 viewModel.authenticated = true;
-            }else if(requestCode == PATIENT_INFO){
-                NurseWithPatients nurseWithPatients = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(NURSE_WITH_PATIENTS, null), NurseWithPatients.class);
-                viewModel.getNurseWithPatients().setValue(nurseWithPatients);
+                viewModel.findNurseWithPatientsByNurseId(nurseId);
+                signUpLoginButton.setText(R.string.action_log_out);
             }
-
+        }
+        /// refresh page
+        if(nurse!=null){
+            viewModel.login(nurse.nurseId, nurse.password);
         }
     }
 }

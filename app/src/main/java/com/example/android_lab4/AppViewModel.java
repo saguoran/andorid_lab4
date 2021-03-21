@@ -13,6 +13,7 @@ import java.util.List;
 public class AppViewModel extends AndroidViewModel {
     private final AppRepository repo ;
     private final MutableLiveData<NurseWithPatients> nurseWithPatients;
+    private final MutableLiveData<Patient> patientMutableLiveData;
     boolean authenticated = false;
     private LiveData<List<Test>> testLiveData;
 
@@ -20,15 +21,24 @@ public class AppViewModel extends AndroidViewModel {
         super(application);
         repo = new AppRepository(application);
         nurseWithPatients = repo.getNurseWithPatients();
+        patientMutableLiveData = repo.getPatient();
     }
 
 
     public MutableLiveData<NurseWithPatients> getNurseWithPatients() {
         return nurseWithPatients;
     }
-
+    public MutableLiveData<Patient> getPatient() {
+        return patientMutableLiveData;
+    }
+    public void getPatientById(int patientId){
+        repo.getPatientById(patientId);
+    }
     public void register(Nurse nurse) {
         repo.insertNurse(nurse);
+    }
+    public void findNurseWithPatientsByNurseId(String nurseId) {
+        repo.findNurseWithPatientsByNurseId(nurseId);
     }
     public void login(String id,String password) {
         repo.findNurseWithPatientsByNurseId(id,password);

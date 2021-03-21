@@ -16,9 +16,13 @@
 
     <string name="patient_info">Patient Info</string>
     <string name="nurse_with_patients">nurse_with_patients</string>
+    <string name="full_name">Full Name</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="department">Department</string>
     <string name="room">Room</string>
     <string name="save">Save</string>
+    <string name="edit_patient">Edit Patient Info</string>
+    <string name="test">Test</string>
+    <string name="add_patient">Add Patient</string>
 </resources>

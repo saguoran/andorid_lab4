@@ -30,12 +30,14 @@ public interface AppDao {
     public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId, String password);
     @Transaction
     @Query("SELECT * FROM nurse Where nurseId = :nurseId")
-    public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId);
+        public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId);
     @Query("SELECT * FROM patient")
     List<Patient> getAll();
 
     @Query("SELECT * FROM patient WHERE patientId IN (:patientIds)")
-    List<Patient> loadAllByIds(String[] patientIds);
+    List<Patient> loadAllByIds(int[] patientIds);
+    @Query("SELECT * FROM patient WHERE patientId = :patientId")
+    Patient loadPatientById(int patientId);
 
     @Query("SELECT * FROM patient WHERE first_name LIKE :first AND " +
             "last_name LIKE :last LIMIT 1")

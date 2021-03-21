@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (n != null) {
                         Log.d(TAG, "onCreate: " + n.nurse.getDisplayName());
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                                .putString(MainActivity.NURSE_WITH_PATIENTS, MainActivity.gson.toJson(n)).apply();
+                                .putString(MainActivity.NURSE_WITH_PATIENTS, n.nurse.nurseId).apply();
                         Intent intent = new Intent();
                         setResult(Activity.RESULT_OK, intent);
                         finish();
