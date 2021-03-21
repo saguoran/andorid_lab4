@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Nurse.class, Patient.class, Test.class}, version = 4, exportSchema = false)
+@Database(entities = {Nurse.class, Patient.class, Test.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
     // This callback is called when the database has opened.
@@ -28,13 +28,13 @@ public abstract class AppDatabase extends RoomDatabase {
                                 new Patient("Arcadia", "Adriel", "002", nurse.nurseId, "A22"),
                                 new Patient("Caspian", "Aurelia", "003", nurse.nurseId, "A23"),
                                 new Patient("Aiyana", "Altair", "004", nurse.nurseId, "A24"),
-                                new Patient("Avalon", "Brielle", "005", nurse.nurseId, "A25"),
-                                new Patient("Cambria", "Aurelian", "006", nurse.nurseId, "A26"),
-                                new Patient("Cara", "Alissa", "000", nurse.nurseId, "A27"),
-                                new Patient("Aurelia", "Adair", "001", nurse.nurseId, "A28"),
-                                new Patient("Anya", "Anatola", "002", nurse.nurseId, "A29"),
-                                new Patient("Carys", "Abrielle", "003", nurse.nurseId, "A210"),
-                                new Patient("Adara", "Adara", "004", nurse.nurseId, "A211"),
+//                                new Patient("Avalon", "Brielle", "005", nurse.nurseId, "A25"),
+//                                new Patient("Cambria", "Aurelian", "006", nurse.nurseId, "A26"),
+//                                new Patient("Cara", "Alissa", "000", nurse.nurseId, "A27"),
+//                                new Patient("Aurelia", "Adair", "001", nurse.nurseId, "A28"),
+//                                new Patient("Anya", "Anatola", "002", nurse.nurseId, "A29"),
+//                                new Patient("Carys", "Abrielle", "003", nurse.nurseId, "A210"),
+//                                new Patient("Adara", "Adara", "004", nurse.nurseId, "A211"),
                         };
                         INSTANCE.appDao().insertAll(nurse);
                         INSTANCE.appDao().insertAll(patients);

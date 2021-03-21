@@ -43,9 +43,14 @@ public class AppRepository {
     }
 
 
-    public void insertNurse(Nurse nurse) {
+    public void insert(Nurse nurse) {
         new Thread(() -> {
             appDao.insertAll(nurse);
+        }).start();
+    }
+    public void insert(Patient patient) {
+        new Thread(() -> {
+            appDao.insertAll(patient);
         }).start();
     }
 
