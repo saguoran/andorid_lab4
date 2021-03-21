@@ -9,6 +9,8 @@
     tools:context=".PatientActivity">
 
 
+
+
     <TextView
         android:id="@+id/department"
         android:layout_width="wrap_content"
@@ -20,20 +22,6 @@
         app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/full_name" />
-
-    <Button
-        android:id="@+id/edit_patient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="524dp"
-        android:text="@string/edit_patient"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/room"
-        app:layout_constraintVertical_bias="0.684" />
 
     <TextView
         android:id="@+id/room"
@@ -57,5 +45,44 @@
         app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/edit_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="524dp"
+        android:text="@string/edit_patient"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/room"
+        app:layout_constraintVertical_bias="0.684" />
+
+    <Button
+        android:id="@+id/add_test"
+        android:layout_width="153dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="8dp"
+        android:onClick="btnNewTest_OnClick"
+        android:text="@string/add_test"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="@+id/edit_patient"
+        app:layout_constraintTop_toBottomOf="@+id/edit_patient" />
+
+
+    <Button
+        android:id="@+id/add_test2"
+        android:layout_width="153dp"
+        android:layout_height="43dp"
+        android:onClick="btnViewTestInfo_OnClick"
+        android:text="@string/View_test_info"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/add_test"
+        app:layout_constraintTop_toBottomOf="@+id/add_test"
+        app:layout_constraintVertical_bias="0.018" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

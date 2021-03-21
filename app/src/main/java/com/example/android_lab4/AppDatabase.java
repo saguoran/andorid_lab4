@@ -36,8 +36,14 @@ public abstract class AppDatabase extends RoomDatabase {
 //                                new Patient("Carys", "Abrielle", "003", nurse.nurseId, "A210"),
 //                                new Patient("Adara", "Adara", "004", nurse.nurseId, "A211"),
                         };
+                        Test[] tests ={
+                                new Test(1,"iris",111,222,30),
+                                new Test(1,"iris",222,333,31),
+                                new Test(1,"iris",333,444,32),
+                        };
                         INSTANCE.appDao().insertAll(nurse);
                         INSTANCE.appDao().insertAll(patients);
+                        INSTANCE.appDao().insertAll(tests);
                     }).start();
                 }
             };

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_lab4">
-        <activity android:name=".EditPatientActivity"></activity>
+        <activity android:name=".ViewTestInfoActivity"></activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".EditPatientActivity" />
         <activity
             android:name=".PatientActivity"
             android:label="@string/patient_info" />

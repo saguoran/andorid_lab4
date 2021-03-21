@@ -20,6 +20,7 @@ public class AppRepository {
         AppDatabase db = AppDatabase.getDatabase(application);
 //        new Thread(db::clearAllTables).start();
         appDao = db.appDao();
+        testList = appDao.getAllTests();
     }
 
     public MutableLiveData<NurseWithPatients> getNurseWithPatients() {
@@ -82,7 +83,7 @@ public class AppRepository {
         return testList;
     }
 
-    LiveData<List<Test>> getAllTestsByPatiendId(String patientId) {
+    LiveData<List<Test>> getAllTestsByPatiendId(int patientId) {
         return appDao.getTestByPatiendId(patientId);
     }
 
@@ -101,7 +102,7 @@ public class AppRepository {
             @Override
             public void run() {
                 try {
-                    appDao.insert(test);
+                    appDao.insertAll(test);
                     insertResult.postValue(1);
                 } catch (Exception e) {
                     insertResult.postValue(0);
