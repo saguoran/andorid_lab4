@@ -1,13 +1,12 @@
 package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -15,63 +14,17 @@ import java.util.List;
 public interface AppDao {
 
     /// queries for nurses
-    @Query("SELECT * FROM nurse WHERE nurseId = :nurseId AND password = :password")
-    LiveData<Nurse> getByUserIdAndPassword(String nurseId, String password);
+    @Query("SELECT * FROM stock_info WHERE stockSymbol = :symbol")
+    LiveData<StockInfo> getStockBySymbol(String symbol);
 
-    @Query("SELECT * FROM nurse")
-    List<Nurse> getAllNurse();
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAll(Nurse... nurses);
-
-    @Delete
-    void delete(Nurse nurse);
-
-    /// queries for patients
-    @Transaction
-    @Query("SELECT * FROM nurse Where nurseId = :nurseId AND password = :password")
-    public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId, String password);
-
-    @Transaction
-    @Query("SELECT * FROM nurse Where nurseId = :nurseId")
-    public NurseWithPatients getNurseWithPatientsByNurseId(String nurseId);
-
-    @Query("SELECT * FROM patient")
-    List<Patient> getAll();
-
-    @Query("SELECT * FROM patient WHERE patientId IN (:patientIds)")
-    List<Patient> loadAllByIds(int[] patientIds);
-
-    @Query("SELECT * FROM patient WHERE patientId = :patientId")
-    Patient loadPatientById(int patientId);
-
-    @Query("SELECT * FROM patient WHERE first_name LIKE :first AND " +
-            "last_name LIKE :last LIMIT 1")
-    Patient findByName(String first, String last);
+    @Query("SELECT * FROM stock_info")
+    List<StockInfo> getAll();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAll(Patient... patients);
+    void insertAll(StockInfo... stock);
 
     @Delete
-    void delete(Patient patient);
+    void delete(StockInfo stockInfo);
 
-    @Update
-    void update(Patient... patient);
-
-    // queries for tests
-    @Insert
-    void insertAll(Test... test);
-
-    //delete test
-    @Delete
-    void delete(Test test);
-
-    //Monitoring Query Result Changes with Live Data
-    @Query("select * from test order by testId")
-    LiveData<List<Test>> getAllTests();
-
-    // return test records from given patient id
-    @Query("SELECT * FROM test WHERE patientId IN (:patientId)")
-    LiveData<List<Test>> getTestByPatiendId(int patientId);
 }
 

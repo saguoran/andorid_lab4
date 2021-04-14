@@ -3,6 +3,7 @@ package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private List<Patient> patients = new ArrayList<>();
+    private List<StockInfo> stockInfos = new ArrayList<>();
     private static ClickListener clickListener;
 
     /**
@@ -21,30 +22,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+        private final RadioButton radioButton;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-            textView = view.findViewById(R.id.textView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickListener.onItemClick(view, getAdapterPosition());
-                }
-            });
+            radioButton = view.findViewById(R.id.radioButton);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                }
+//            });
         }
-
-        public TextView getTextView() {
-            return textView;
+        public RadioButton getRadioButton() {
+            return radioButton;
         }
     }
 
     public CustomAdapter() {
     }
 
-    public Patient getPatientAtPosition(int position) {
-        return patients.get(position);
+    public StockInfo getStockInfoAtPosition(int position) {
+        return stockInfos.get(position);
     }
 
     @NonNull
@@ -57,30 +56,45 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    public int selectedPosition = -1;
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(patients.get(position).getDisplayName());
+        RadioButton radioButton = viewHolder.getRadioButton();
+        radioButton.setText(stockInfos.get(position).getStockSymbol());
+        radioButton.setChecked(position == selectedPosition);
+        radioButton.setTag(position);
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedPosition = (Integer)view.getTag();
+                notifyDataSetChanged();
+
+                clickListener.onItemClick(view, stockInfos.get(selectedPosition));
+            }
+        });
     }
 
+
+
     // set patients
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
+    public void setStockInfos(List<StockInfo> patients) {
+        this.stockInfos = patients;
         notifyDataSetChanged();
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return patients.size();
+        return stockInfos.size();
     }
 
     // interface for ClickListener
     public interface ClickListener {
-        void onItemClick(View v, int position);
+        void onItemClick(View v, StockInfo stockInfo);
     }
 
     // setOnItemClickListener

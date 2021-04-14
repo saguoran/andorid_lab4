@@ -1,18 +1,19 @@
 package com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4;
 
-import android.app.Activity;
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,108 +21,53 @@ import com.google.gson.Gson;
 
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
-    public static final String VIEW_PATIENT = "view_patient";
-    public static final String NURSE_WITH_PATIENTS = "nurse_with_patients";
-    private static final int NURSER_LOGIN = 1;
-    private static final int PATIENT_INFO = 2;
-    private static final int NEW_PATIENT = 3;
-
-    private AppViewModel viewModel;
-    private TextView textView;
-    private Button signUpLoginButton;
-    private Button addPatientButton;
-    private RecyclerView recyclerView;
-    public static final Gson gson = new Gson();
-    private Nurse nurse;
-
+    private String currentMessage;
+    private static final int SMS_RECEIVE_PERMISSION_REQUEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.RECEIVE_SMS,
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_PHONE_STATE},
+                SMS_RECEIVE_PERMISSION_REQUEST);
         // init variables
-        viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
-        addPatientButton = findViewById(R.id.add_patient);
-
-        // setOnClickListener for add patient button
-        addPatientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditPatientActivity.class);
-                startActivityForResult(intent, NEW_PATIENT);
-            }
+        AppViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(AppViewModel.class);
+        findViewById(R.id.insert_button).setOnClickListener(v -> {
+            String[] amazon = getResources().getStringArray(R.array.amazon);
+            String[] ssnlf = getResources().getStringArray(R.array.ssnlf);
+            StockInfo[] stockInfos = {new StockInfo(amazon[0], amazon[1], Double.parseDouble(amazon[2])), new StockInfo(ssnlf[0], ssnlf[1], Double.parseDouble(ssnlf[2])) };
+            viewModel.getRepo().insert(stockInfos);
         });
-
-        recyclerView = findViewById(R.id.recyclerView);
+        findViewById(R.id.button).setOnClickListener(v -> {
+            //Get the SmsManager instance and call the sendTextMessage method to send message
+            SmsManager sms=SmsManager.getDefault();
+            sms.sendTextMessage("5554", null, currentMessage,null,null);
+            Toast.makeText(getApplicationContext(), currentMessage,
+                    Toast.LENGTH_LONG).show();
+        });
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        TextView textView = findViewById(R.id.stock_textView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         final CustomAdapter adapter = new CustomAdapter();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.setVisibility(View.VISIBLE);
-
-        // setOnItemClickListener for the adapter
-        adapter.setOnItemClickListener(new CustomAdapter.ClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Patient patient = adapter.getPatientAtPosition(position);
-                Intent intent = new Intent(MainActivity.this, PatientActivity.class);
-                intent.putExtra(VIEW_PATIENT, patient.patientId);
-                startActivityForResult(intent, PATIENT_INFO);
+        viewModel.getRepo().get_stockInfos().observe(this, stockInfos -> {
+            if(stockInfos!=null){
+                adapter.setStockInfos(stockInfos);
+                adapter.setOnItemClickListener(new CustomAdapter.ClickListener() {
+                    @Override
+                    public void onItemClick(View v, StockInfo stockInfo) {
+                        Log.d(TAG, "onItemClick: "+stockInfo.getCompanyName());
+                        textView.setText(stockInfo.toString());
+                        currentMessage = stockInfo.toString();
+                    }
+                });
             }
         });
 
-        viewModel.getNurseWithPatients().observe(this, new Observer<NurseWithPatients>() {
-            @Override
-            public void onChanged(NurseWithPatients nurseWithPatients) {
-                if (nurseWithPatients != null) {
-                    nurse = nurseWithPatients.nurse;
-                    adapter.setPatients(nurseWithPatients.patients);
-                    String welcome = String.format("Welcome, %s!", nurseWithPatients.nurse.getDisplayName());
-                    textView.setText(welcome);
-                    Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-                    addPatientButton.setEnabled(true);
-                    recyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    addPatientButton.setEnabled(false);
-                }
-            }
-        });
-
-        signUpLoginButton = findViewById(R.id.login_button);
-        textView = findViewById(R.id.textView);
-        signUpLoginButton.setOnClickListener(v -> {
-            if (viewModel.authenticated) {
-                viewModel.getNurseWithPatients().setValue(null);
-                viewModel.authenticated = false;
-                signUpLoginButton.setText(R.string.action_log_in);
-                textView.setText("");
-                recyclerView.setVisibility(View.GONE);
-            } else {
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, NURSER_LOGIN);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == NURSER_LOGIN) {
-                String nurseId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(NURSE_WITH_PATIENTS, null);
-                viewModel.authenticated = true;
-                viewModel.findNurseWithPatientsByNurseId(nurseId);
-                signUpLoginButton.setText(R.string.action_log_out);
-            }
-        }
-
-        /// refresh page
-        if (nurse != null) {
-            viewModel.login(nurse.nurseId, nurse.password);
-        }
     }
 }

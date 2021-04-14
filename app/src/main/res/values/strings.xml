@@ -1,32 +1,17 @@
 <resources>
-    <string name="app_name">COMP304Sec002_Lab4</string>
+    <string name="app_name">KangleJiang_COMP304_002_Test02</string>
     <!-- Strings related to login -->
-    <string name="prompt_username">Nurse Id</string>
-    <string name="prompt_username_hint">iris</string>
-    <string name="patient_avatar">avatar</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_password_hint">123x</string>
-    <string name="action_log_in">Log In</string>
-    <string name="action_log_out">Log Out</string>
-    <string name="action_register">Register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="title_activity_login">LoginActivity</string>
-
-    <string name="patient_info">Patient Info</string>
-    <string name="nurse_with_patients">nurse_with_patients</string>
-    <string name="full_name">Full Name</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="department">Department</string>
-    <string name="room">Room</string>
-    <string name="save">Save</string>
-    <string name="edit_patient">Edit Patient Info</string>
-    <string name="test">Test</string>
-    <string name="add_patient">Add Patient</string>
-    <string name="add_test">Add Test</string>
-    <string name="View_test_info">View Test Info</string>
+    <string name="insert_stock">INSERT STOCKS(HARDCODE)</string>
+    <string name="display_stock">display stock info</string>
+    <string name="stock_info">Stock Information</string>
+    <string-array name="amazon">
+        <item>AMZN</item>
+        <item>Amazon</item>
+        <item>3399.92</item>
+    </string-array>
+    <string-array name="ssnlf">
+        <item>SSNLF</item>
+        <item>Samsung Electronics Co. Ltd</item>
+        <item>44.20</item>
+    </string-array>
 </resources>

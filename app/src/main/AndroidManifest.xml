@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4">
 
+    <!-- To use SMS based services -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_lab4">
-        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.ViewTestInfoActivity"></activity>
-        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.TestActivity" />
-        <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.EditPatientActivity" />
-        <activity
-            android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.PatientActivity"
-            android:label="@string/patient_info" />
-        <activity
-            android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.LoginActivity"
-            android:label="@string/action_log_in" />
         <activity android:name="com.example.JoannaLuKangleJiang_COMP304Sec002_Lab4.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
